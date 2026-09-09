@@ -1,0 +1,114 @@
+/* Resume page shell - always a printable white page regardless of app theme */
+.resume-page {
+  width: 8.5in;
+  min-height: 11in;
+  background: #ffffff;
+  color: #111111;
+  padding: 0.6in 0.7in;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  margin: 20px 0 40px;
+}
+
+.resume-page .empty-state {
+  color: #999;
+  font-style: italic;
+  text-align: center;
+  padding-top: 2in;
+  font-family: system-ui, sans-serif;
+}
+
+.resume-page a { color: inherit; text-decoration: underline; }
+
+.resume-page .rp-section { margin-top: 14px; }
+.resume-page .rp-section:first-of-type { margin-top: 0; }
+.resume-page .rp-entry { margin-bottom: 8px; }
+.resume-page .rp-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.resume-page .rp-bullets { margin: 4px 0 0; padding-left: 18px; }
+.resume-page .rp-bullets li { margin-bottom: 2px; }
+
+/* ---------- Classic (Jake-style LaTeX resume) ---------- */
+.template-classic {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: 10.6pt;
+  line-height: 1.35;
+}
+.template-classic .rp-header { text-align: center; margin-bottom: 10px; }
+.template-classic .rp-name { font-size: 22pt; font-weight: 700; letter-spacing: 0.3px; margin: 0 0 4px; }
+.template-classic .rp-contact { font-size: 9.6pt; color: #222; }
+.template-classic .rp-contact span:not(:last-child)::after { content: " \2014 "; color: #666; }
+.template-classic .rp-heading {
+  text-transform: uppercase;
+  font-size: 10.8pt;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  border-bottom: 1px solid #111;
+  padding-bottom: 2px;
+  margin-bottom: 6px;
+}
+.template-classic .rp-title-line { font-weight: 700; }
+.template-classic .rp-sub-line { font-style: italic; }
+.template-classic .rp-bullets { list-style: disc; }
+.template-classic .rp-summary { margin: 0 0 10px; }
+
+/* ---------- Modern ---------- */
+.template-modern {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-size: 10.4pt;
+  line-height: 1.4;
+}
+.template-modern .rp-header {
+  border-bottom: 3px solid #17a76a;
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+.template-modern .rp-name { font-size: 26pt; font-weight: 800; margin: 0 0 4px; color: #0d3b28; }
+.template-modern .rp-contact { font-size: 9.6pt; color: #444; }
+.template-modern .rp-contact span:not(:last-child)::after { content: " \00b7 "; color: #17a76a; font-weight: 700; }
+.template-modern .rp-heading {
+  font-size: 10.5pt;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #0d3b28;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.template-modern .rp-heading::before { content: ""; width: 8px; height: 8px; background: #17a76a; border-radius: 2px; display: inline-block; }
+.template-modern .rp-title-line { font-weight: 700; color: #111; }
+.template-modern .rp-sub-line { color: #17a76a; font-weight: 600; }
+.template-modern .rp-bullets { list-style: none; padding-left: 0; }
+.template-modern .rp-bullets li { padding-left: 16px; position: relative; }
+.template-modern .rp-bullets li::before { content: "\2192"; position: absolute; left: 0; color: #17a76a; }
+.template-modern .rp-summary { margin: 0 0 12px; color: #333; }
+
+/* ---------- Minimal ---------- */
+.template-minimal {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 10.2pt;
+  line-height: 1.5;
+}
+.template-minimal .rp-header { text-align: left; margin-bottom: 18px; }
+.template-minimal .rp-name { font-size: 24pt; font-weight: 300; letter-spacing: 1px; margin: 0 0 2px; }
+.template-minimal .rp-contact { font-size: 9.2pt; color: #777; letter-spacing: 0.2px; }
+.template-minimal .rp-contact span:not(:last-child)::after { content: "   "; }
+.template-minimal .rp-heading {
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 8px;
+}
+.template-minimal .rp-title-line { font-weight: 600; }
+.template-minimal .rp-sub-line { color: #777; }
+.template-minimal .rp-bullets { list-style: none; padding-left: 0; }
+.template-minimal .rp-bullets li { padding-left: 12px; position: relative; }
+.template-minimal .rp-bullets li::before { content: "\2013"; position: absolute; left: 0; color: #bbb; }
+.template-minimal .rp-summary { margin: 0 0 14px; color: #444; }
+
+@media print {
+  .resume-page { box-shadow: none; margin: 0; width: auto; min-height: 0; }
+  @page { size: letter; margin: 0.5in; }
+}

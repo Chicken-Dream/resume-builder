@@ -1,0 +1,8 @@
+name = "resume-builder-import"
+main = "src/index.js"
+compatibility_date = "2026-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Optional: lock CORS down to your GitHub Pages origin instead of "*".
+# [vars]
+# ALLOWED_ORIGIN = "https://your-username.github.io"

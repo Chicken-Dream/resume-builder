@@ -1,0 +1,17 @@
+{
+  "name": "resume-builder-import-worker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "secret:set-key": "wrangler secret put ANTHROPIC_API_KEY"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.124.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Resume Builder</title>
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="stylesheet" href="css/app.css" />
+<link rel="stylesheet" href="css/templates.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">&gt;_</span>
+    <span class="brand-name">Resume<span class="accent">Builder</span></span>
+  </div>
+  <div class="topbar-actions">
+    <label class="btn btn-ghost" for="import-input">Import PDF</label>
+    <input type="file" id="import-input" accept="application/pdf" hidden />
+    <button id="reset-btn" class="btn btn-ghost">Reset</button>
+    <button id="print-btn" class="btn btn-primary">Export / Print</button>
+  </div>
+</header>
+
+<div id="import-status" class="import-status" hidden></div>
+
+<div id="loading-overlay" class="loading-overlay" hidden>
+  <div class="spinner"></div>
+  <div id="loading-text" class="loading-text">Working...</div>
+</div>
+
+<main class="layout">
+
+  <section class="panel form-panel">
+
+    <div class="field-group">
+      <h2 class="section-title">Template</h2>
+      <div id="template-picker" class="template-picker">
+        <label class="template-card">
+          <input type="radio" name="template" value="classic" checked />
+          <span class="template-card-inner">
+            <span class="tpl-preview tpl-preview-classic"></span>
+            Classic
+          </span>
+        </label>
+        <label class="template-card">
+          <input type="radio" name="template" value="modern" />
+          <span class="template-card-inner">
+            <span class="tpl-preview tpl-preview-modern"></span>
+            Modern
+          </span>
+        </label>
+        <label class="template-card">
+          <input type="radio" name="template" value="minimal" />
+          <span class="template-card-inner">
+            <span class="tpl-preview tpl-preview-minimal"></span>
+            Minimal
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <form id="resume-form">
+
+      <div class="field-group">
+        <h2 class="section-title">Basics</h2>
+        <div class="grid-2">
+          <label>Full name<input type="text" id="field-name" placeholder="Jane Doe" /></label>
+          <label>Headline / title<input type="text" id="field-title" placeholder="Software Engineer" /></label>
+          <label>Email<input type="text" id="field-email" placeholder="jane@example.com" /></label>
+          <label>Phone<input type="text" id="field-phone" placeholder="(555) 123-4567" /></label>
+          <label class="grid-span-2">Location<input type="text" id="field-location" placeholder="Edmonton, AB" /></label>
+        </div>
+
+        <div id="links-list" class="repeat-list"></div>
+        <button type="button" class="add-btn" data-add="links">+ Add link (GitHub, portfolio, LinkedIn...)</button>
+      </div>
+
+      <div class="field-group">
+        <h2 class="section-title">Summary</h2>
+        <label>Short professional summary (optional)<textarea id="field-summary" rows="3" placeholder="A brief 2-3 sentence summary..."></textarea></label>
+      </div>
+
+      <div class="field-group">
+        <div class="section-title-row">
+          <h2 class="section-title">Education</h2>
+        </div>
+        <div id="education-list" class="repeat-list"></div>
+        <button type="button" class="add-btn" data-add="education">+ Add education</button>
+      </div>
+
+      <div class="field-group">
+        <div class="section-title-row">
+          <h2 class="section-title">Experience</h2>
+        </div>
+        <div id="experience-list" class="repeat-list"></div>
+        <button type="button" class="add-btn" data-add="experience">+ Add experience</button>
+      </div>
+
+      <div class="field-group">
+        <div class="section-title-row">
+          <h2 class="section-title">Projects</h2>
+        </div>
+        <div id="projects-list" class="repeat-list"></div>
+        <button type="button" class="add-btn" data-add="projects">+ Add project</button>
+      </div>
+
+      <div class="field-group">
+        <div class="section-title-row">
+          <h2 class="section-title">Skills</h2>
+        </div>
+        <div id="skills-list" class="repeat-list"></div>
+        <button type="button" class="add-btn" data-add="skills">+ Add skill category</button>
+      </div>
+
+      <div class="field-group">
+        <h2 class="section-title">Certifications</h2>
+        <label>One per line<textarea id="field-certifications" rows="3" placeholder="AWS Certified Cloud Practitioner"></textarea></label>
+      </div>
+
+      <div class="field-group">
+        <div class="section-title-row">
+          <h2 class="section-title">Awards</h2>
+        </div>
+        <div id="awards-list" class="repeat-list"></div>
+        <button type="button" class="add-btn" data-add="awards">+ Add award</button>
+      </div>
+
+    </form>
+  </section>
+
+  <section class="panel preview-panel">
+    <div class="preview-scroll">
+      <div id="preview" class="resume-page template-classic"></div>
+    </div>
+  </section>
+
+</main>
+
+<template id="tpl-link-row">
+  <div class="entry entry-row">
+    <input type="text" data-field="label" placeholder="Label (e.g. GitHub)" />
+    <input type="text" data-field="url" placeholder="https://..." />
+    <button type="button" class="remove-btn" title="Remove">&times;</button>
+  </div>
+</template>
+
+<template id="tpl-education-entry">
+  <div class="entry">
+    <div class="grid-2">
+      <input type="text" data-field="school" placeholder="School" />
+      <input type="text" data-field="location" placeholder="Location" />
+      <input type="text" data-field="degree" placeholder="Degree" />
+      <div class="grid-2">
+        <input type="text" data-field="start" placeholder="Start (Sep 2023)" />
+        <input type="text" data-field="end" placeholder="End (Apr 2027)" />
+      </div>
+    </div>
+    <textarea data-field="details" rows="2" placeholder="Relevant coursework, GPA, etc. (optional)"></textarea>
+    <button type="button" class="remove-btn remove-btn-block">Remove education</button>
+  </div>
+</template>
+
+<template id="tpl-experience-entry">
+  <div class="entry">
+    <div class="grid-2">
+      <input type="text" data-field="title" placeholder="Job title" />
+      <input type="text" data-field="company" placeholder="Company" />
+      <input type="text" data-field="location" placeholder="Location" />
+      <div class="grid-2">
+        <input type="text" data-field="start" placeholder="Start (Aug 2025)" />
+        <input type="text" data-field="end" placeholder="End (Present)" />
+      </div>
+    </div>
+    <textarea data-field="bullets" rows="4" placeholder="One bullet point per line"></textarea>
+    <button type="button" class="remove-btn remove-btn-block">Remove experience</button>
+  </div>
+</template>
+
+<template id="tpl-project-entry">
+  <div class="entry">
+    <div class="grid-2">
+      <input type="text" data-field="name" placeholder="Project name" />
+      <input type="text" data-field="tech" placeholder="Tech used (comma separated)" />
+      <input type="text" data-field="start" placeholder="Start" />
+      <input type="text" data-field="end" placeholder="End" />
+    </div>
+    <textarea data-field="bullets" rows="3" placeholder="One bullet point per line"></textarea>
+    <button type="button" class="remove-btn remove-btn-block">Remove project</button>
+  </div>
+</template>
+
+<template id="tpl-skill-entry">
+  <div class="entry entry-row">
+    <input type="text" data-field="category" placeholder="Category (e.g. Technical)" />
+    <input type="text" data-field="items" placeholder="Comma-separated items" />
+    <button type="button" class="remove-btn" title="Remove">&times;</button>
+  </div>
+</template>
+
+<template id="tpl-award-entry">
+  <div class="entry">
+    <div class="grid-2">
+      <input type="text" data-field="title" placeholder="Award title" />
+      <input type="text" data-field="org" placeholder="Organization" />
+      <input type="text" data-field="location" placeholder="Location" />
+      <input type="text" data-field="date" placeholder="Date" />
+    </div>
+    <button type="button" class="remove-btn remove-btn-block">Remove award</button>
+  </div>
+</template>
+
+<script type="module">
+  import * as pdfjsLib from "/vendor/pdfjs/pdf.min.mjs";
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "/vendor/pdfjs/pdf.worker.min.mjs";
+
+  window.extractPdfText = async function (file) {
+    const buf = await file.arrayBuffer();
+    const doc = await pdfjsLib.getDocument({ data: buf }).promise;
+    let text = "";
+    for (let i = 1; i <= doc.numPages; i++) {
+      const page = await doc.getPage(i);
+      const content = await page.getTextContent();
+      text += content.items.map((it) => ("str" in it ? it.str : "")).join(" ") + "\n";
+      page.cleanup();
+    }
+    return text.trim();
+  };
+</script>
+<script src="js/app.js"></script>
+</body>
+</html>
